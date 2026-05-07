@@ -22,7 +22,6 @@ st.set_page_config(
 # UI 樣式
 # ==============================
 
-
 def apply_page_style():
     st.markdown(
         """
@@ -31,12 +30,15 @@ def apply_page_style():
             background-color: #f4f6f9 !important;
             color: #111827 !important;
         }
+
         html, body, [class*="css"] {
             color: #111827 !important;
         }
+
         label, p, span, div {
             color: #111827 !important;
         }
+
         [data-testid="stSidebar"],
         [data-testid="collapsedControl"],
         [data-testid="stToolbar"],
@@ -50,37 +52,13 @@ def apply_page_style():
             display: none !important;
             visibility: hidden !important;
         }
+
         .block-container {
-            padding-top: 1.5rem;
+            padding-top: 2rem;
             padding-bottom: 2rem;
-            max-width: 980px;
+            max-width: 900px;
         }
-        .section-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 18px;
-            padding: 18px 20px;
-            margin: 12px 0 18px 0;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-        }
-        .hint-box {
-            background: #eff6ff;
-            border-left: 5px solid #2563eb;
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin: 8px 0 16px 0;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .warning-box {
-            background: #fff7ed;
-            border-left: 5px solid #f97316;
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin: 8px 0 16px 0;
-            font-size: 14px;
-            line-height: 1.6;
-        }
+
         .stButton > button {
             height: 50px;
             border-radius: 12px;
@@ -88,26 +66,37 @@ def apply_page_style():
             background-color: #2563eb !important;
             color: white !important;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 600;
         }
+
         .stButton > button:hover {
             background-color: #1d4ed8 !important;
             color: white !important;
         }
+
         .stTextInput input,
         .stTextArea textarea,
-        .stSelectbox div,
         .stDateInput input {
             background-color: white !important;
             color: #111827 !important;
             border-radius: 10px;
             border: 1px solid #d1d5db !important;
         }
+
+        div[data-baseweb="select"] > div {
+            background-color: white !important;
+            color: #111827 !important;
+            border-radius: 10px !important;
+            border: 1px solid #d1d5db !important;
+        }
+
+        div[data-baseweb="select"] span {
+            color: #111827 !important;
+        }
         </style>
         """,
         unsafe_allow_html=True
     )
-
 
 
 apply_page_style()
@@ -128,36 +117,66 @@ if not user_info:
 
 
 # ==============================
-# 表單選項 - 依 Google Form 題目設計
+# 表單選項
 # ==============================
 
 HOUR_OPTIONS = [f"{i:02d}" for i in range(24)]
 MINUTE_OPTIONS = ["00", "30"]
 
-REQUEST_TYPES = [
-    "請假(Leave)",
-    "加班(Overtime)",
-    "補登(Timesheet Correction)"
-]
+REQUEST_TYPES = ["請假", "加班", "補登"]
+
+REQUEST_TYPE_PAYLOAD_MAP = {
+    "請假": {
+        "raw": "請假(Leave)",
+        "normalized": "leave"
+    },
+    "加班": {
+        "raw": "加班(Overtime)",
+        "normalized": "overtime"
+    },
+    "補登": {
+        "raw": "補登(Timesheet Correction)",
+        "normalized": "correction"
+    }
+}
 
 LEAVE_TYPES = [
-    "特休(Annual Leave)",
-    "病假(Sick Leave)",
-    "事假(Personal Leave)",
-    "公出(Official Business Leave)",
-    "生理假(Menstrual Leave)",
-    "家庭照顧假(Family Care Leave)",
-    "活力假(Vitality Leave)",
-    "喪假(Bereavement Leave)",
-    "公假(Official Leave)",
-    "婚假(Marriage Leave)",
-    "公傷假(Occupational Injury Leave)",
-    "陪產檢假/陪產假(Paternity Leave / Accompanying Prenatal Check-up Leave)",
-    "產假(Maternity Leave)",
-    "產檢假(Prenatal Check-up Leave)",
-    "志工假(Volunteer Leave)",
+    "特休",
+    "病假",
+    "事假",
+    "公出",
+    "生理假",
+    "家庭照顧假",
+    "活力假",
+    "喪假",
+    "公假",
+    "婚假",
+    "公傷假",
+    "陪產檢假/陪產假",
+    "產假",
+    "產檢假",
+    "志工假",
     "彈性育嬰留停(日)"
 ]
+
+LEAVE_TYPE_PAYLOAD_MAP = {
+    "特休": "特休(Annual Leave)",
+    "病假": "病假(Sick Leave)",
+    "事假": "事假(Personal Leave)",
+    "公出": "公出(Official Business Leave)",
+    "生理假": "生理假(Menstrual Leave)",
+    "家庭照顧假": "家庭照顧假(Family Care Leave)",
+    "活力假": "活力假(Vitality Leave)",
+    "喪假": "喪假(Bereavement Leave)",
+    "公假": "公假(Official Leave)",
+    "婚假": "婚假(Marriage Leave)",
+    "公傷假": "公傷假(Occupational Injury Leave)",
+    "陪產檢假/陪產假": "陪產檢假/陪產假(Paternity Leave / Accompanying Prenatal Check-up Leave)",
+    "產假": "產假(Maternity Leave)",
+    "產檢假": "產檢假(Prenatal Check-up Leave)",
+    "志工假": "志工假(Volunteer Leave)",
+    "彈性育嬰留停(日)": "彈性育嬰留停(日)"
+}
 
 FLEX_PARENTAL_CATEGORIES = [
     "5日前提出申請",
@@ -168,10 +187,16 @@ FLEX_PARENTAL_CATEGORIES = [
 ]
 
 BEREAVEMENT_CATEGORIES = [
-    "喪假3日(外曾/曾祖父母、兄弟姐妹、配偶之祖父母或外祖父母)",
-    "喪假6日(祖/外父母、子女、配偶之父母、養父母或繼父母)",
-    "喪假8日(父母、配偶、養父母、繼父母)"
+    "喪假3日：外曾祖父母、曾祖父母、兄弟姊妹、配偶之祖父母或外祖父母",
+    "喪假6日：祖父母、外祖父母、子女、配偶之父母、養父母或繼父母",
+    "喪假8日：父母、配偶、養父母、繼父母"
 ]
+
+BEREAVEMENT_CATEGORY_PAYLOAD_MAP = {
+    "喪假3日：外曾祖父母、曾祖父母、兄弟姊妹、配偶之祖父母或外祖父母": "喪假3日(外曾/曾祖父母、兄弟姐妹、配偶之祖父母或外祖父母)",
+    "喪假6日：祖父母、外祖父母、子女、配偶之父母、養父母或繼父母": "喪假6日(祖/外父母、子女、配偶之父母、養父母或繼父母)",
+    "喪假8日：父母、配偶、養父母、繼父母": "喪假8日(父母、配偶、養父母、繼父母)"
+}
 
 SPECIAL_DATE_LEAVE_KEYWORDS = [
     "婚假",
@@ -183,7 +208,6 @@ SPECIAL_DATE_LEAVE_KEYWORDS = [
     "彈性育嬰留停"
 ]
 
-# 使用者確認：以下假別需附證明才能申請
 LEAVE_ATTACHMENT_REQUIRED_KEYWORDS = [
     "病假",
     "喪假",
@@ -196,26 +220,41 @@ LEAVE_ATTACHMENT_REQUIRED_KEYWORDS = [
     "彈性育嬰留停"
 ]
 
-OVERTIME_PAY_TYPE = "PAY"
-
 OVERTIME_TYPES = [
-    "10平日加班 Work overtime on weekdays",
-    "20休息日加班(無交通費) Work overtime on holidays (no transportation expenses)",
-    "25休息日加班 Foreign employees select 20",
-    "60國定假日加班 Foreign employees select 63",
-    "63國定假日加班(無交通費) Work overtime on national holidays (no transportation expenses)",
-    "100調班日加班 Foreign employees select 101",
-    "101調班日加班(無交通費) Overtime on Rescheduled Workday (no transportation expenses)"
+    "10平日加班",
+    "20休息日加班（無交通費）",
+    "25休息日加班",
+    "60國定假日加班",
+    "63國定假日加班（無交通費）",
+    "100調班日加班",
+    "101調班日加班（無交通費）"
 ]
+
+OVERTIME_TYPE_PAYLOAD_MAP = {
+    "10平日加班": "10平日加班 Work overtime on weekdays",
+    "20休息日加班（無交通費）": "20休息日加班(無交通費) Work overtime on holidays (no transportation expenses)",
+    "25休息日加班": "25休息日加班 Foreign employees select 20",
+    "60國定假日加班": "60國定假日加班 Foreign employees select 63",
+    "63國定假日加班（無交通費）": "63國定假日加班(無交通費) Work overtime on national holidays (no transportation expenses)",
+    "100調班日加班": "100調班日加班 Foreign employees select 101",
+    "101調班日加班（無交通費）": "101調班日加班(無交通費) Overtime on Rescheduled Workday (no transportation expenses)"
+}
 
 BREAK_HOUR_OPTIONS = ["0", "0.5", "1", "1.5", "2"]
 
 CORRECTION_REASONS = [
-    "忘記帶卡(Forgot to Bring Access Card)",
-    "忘記刷卡上班(Forgot to Clock In)",
-    "忘記刷卡下班(Forgot to Clock Out)",
-    "早於刷卡時間(Earlier than the card swipe time)"
+    "忘記帶卡",
+    "忘記刷卡上班",
+    "忘記刷卡下班",
+    "早於刷卡時間"
 ]
+
+CORRECTION_REASON_PAYLOAD_MAP = {
+    "忘記帶卡": "忘記帶卡(Forgot to Bring Access Card)",
+    "忘記刷卡上班": "忘記刷卡上班(Forgot to Clock In)",
+    "忘記刷卡下班": "忘記刷卡下班(Forgot to Clock Out)",
+    "早於刷卡時間": "早於刷卡時間(Earlier than the card swipe time)"
+}
 
 MAX_UPLOAD_SIZE_MB = 10
 UPLOAD_TYPES = ["png", "jpg", "jpeg", "pdf"]
@@ -230,25 +269,19 @@ def back_to_menu_button():
         st.switch_page("登入頁.py")
 
 
-def bilingual_hint(zh_text, en_text):
+def hint_box(text):
     st.markdown(
         f"""
-        <div class="hint-box">
-        {zh_text}<br>
-        <span style="color:#374151;">{en_text}</span>
-        </div>
+        <div class="hint-box">{text}</div>
         """,
         unsafe_allow_html=True
     )
 
 
-def warning_hint(zh_text, en_text):
+def warning_box(text):
     st.markdown(
         f"""
-        <div class="warning-box">
-        {zh_text}<br>
-        <span style="color:#374151;">{en_text}</span>
-        </div>
+        <div class="warning-box">{text}</div>
         """,
         unsafe_allow_html=True
     )
@@ -278,7 +311,7 @@ def format_date_raw(d):
 
 
 def is_annual_leave(leave_type):
-    return "特休" in leave_type
+    return leave_type == "特休"
 
 
 def is_special_date_required(leave_type):
@@ -291,17 +324,17 @@ def is_leave_attachment_required(leave_type):
 
 def special_date_label(leave_type):
     if "婚假" in leave_type:
-        return "日期 *｜婚假：登記結婚日期"
-    if "產假" in leave_type:
-        return "日期 *｜產假/流產假：預產期/出生日期"
-    if "產檢假" in leave_type:
-        return "日期 *｜產檢假：預產期日期"
+        return "日期 *（登記結婚日期）"
     if "陪產檢假" in leave_type or "陪產假" in leave_type:
-        return "日期 *｜陪產假：預產期/出生日期"
+        return "日期 *（預產期或出生日期）"
+    if "產假" in leave_type:
+        return "日期 *（預產期或出生日期）"
+    if "產檢假" in leave_type:
+        return "日期 *（預產期日期）"
     if "喪假" in leave_type:
-        return "日期 *｜喪假：親人辭世日期"
+        return "日期 *（親人辭世日期）"
     if "彈性育嬰留停" in leave_type:
-        return "日期 *｜彈性育嬰留停(日)：小孩生日日期"
+        return "日期 *（小孩生日日期）"
     return "日期 *"
 
 
@@ -408,14 +441,6 @@ def build_base_payload(request_type_normalized, form_type_raw, employee_name, em
     }
 
 
-def request_type_to_normalized(request_type):
-    if request_type == "請假(Leave)":
-        return "leave"
-    if request_type == "加班(Overtime)":
-        return "overtime"
-    return "correction"
-
-
 # ==============================
 # 登入人員資料
 # ==============================
@@ -433,31 +458,27 @@ region = user_info.get("region", "")
 # ==============================
 
 st.title("MA1100&1P00 人員出勤申報表單")
-st.caption("MA1100&1P00 Employee Attendance Application Form")
 back_to_menu_button()
 st.divider()
 
 with st.container():
     st.subheader("申請人資料")
-    bilingual_hint(
-        "工號與姓名由登入資料自動帶入，請確認資料正確。",
-        "Employee ID and name are filled from your login information. Please confirm the information is correct."
-    )
+    hint_box("工號與姓名由登入資料自動帶入，請確認資料正確。工號與姓名不可包含空白。外籍同仁請於姓名欄使用中文姓名。")
 
     col1, col2 = st.columns(2)
     with col1:
-        st.text_input("電子郵件 Email *", value=email, disabled=True)
-        st.text_input("工號 Employee ID *", value=employee_id, disabled=True)
-        st.text_input("姓名 Name *", value=employee_name, disabled=True)
+        st.text_input("電子郵件 *", value=email, disabled=True)
+        st.text_input("工號 *", value=employee_id, disabled=True)
+        st.text_input("姓名 *", value=employee_name, disabled=True)
     with col2:
-        st.text_input("部門 Department", value=department, disabled=True)
-        st.text_input("Level", value=level, disabled=True)
-        st.text_input("Region", value=region, disabled=True)
+        st.text_input("部門", value=department, disabled=True)
+        st.text_input("層級", value=level, disabled=True)
+        st.text_input("國籍", value=region, disabled=True)
 
 st.divider()
 
 request_type = st.radio(
-    "請選擇申請需求項目 Choose Form Type *",
+    "請選擇申請需求項目 *",
     REQUEST_TYPES,
     horizontal=True
 )
@@ -484,7 +505,7 @@ leave_end_minute = "00"
 leave_reason = ""
 
 select_zero = "0"
-pay_type = OVERTIME_PAY_TYPE
+pay_type = "PAY"
 overtime_type = None
 overtime_start_date = date.today()
 overtime_end_date = date.today()
@@ -509,15 +530,12 @@ correction_end_minute = "00"
 # 請假
 # ==============================
 
-if request_type == "請假(Leave)":
-    st.subheader("請假申請單 Leave Application Form")
+if request_type == "請假":
+    st.subheader("請假申請單")
 
-    warning_hint(
-        "特休需於兩天前申請，並由主管同意才能送出表單。病假、喪假、家庭照顧假、產假、陪產假、產檢假、陪產檢假、公假、彈性育嬰留停皆需附上證明。",
-        "Annual leave must be applied at least two days in advance and approved by your direct supervisor. Supporting documents are required for specified leave types."
-    )
+    warning_box("特休需於兩天前申請，並由主管同意才能送出表單。病假、喪假、家庭照顧假、產假、陪產假、產檢假、陪產檢假、公假、彈性育嬰留停皆需附上證明，才能申請。")
 
-    leave_type = st.selectbox("選擇假別 Leave Type *", LEAVE_TYPES)
+    leave_type = st.selectbox("選擇假別 *", LEAVE_TYPES)
 
     if "彈性育嬰留停" in leave_type:
         flex_parental_category = st.radio(
@@ -538,12 +556,9 @@ if request_type == "請假(Leave)":
         )
 
     if is_leave_attachment_required(leave_type):
-        warning_hint(
-            "此假別需上傳請假證明。若無上傳完成，視同無請假。",
-            "Supporting document is required for this leave type. The leave application is not valid without completed document upload."
-        )
+        warning_box("此假別需上傳請假證明。若無上傳完成，視同無請假。附件僅允許上傳 1 個檔案，若有多個檔案，請先合併為 1 個 PDF 或圖片檔。檔案大小上限為 10MB。")
         uploaded_file = st.file_uploader(
-            "請假附件上傳 Upload File *",
+            "請假附件上傳 *",
             type=UPLOAD_TYPES,
             accept_multiple_files=False
         )
@@ -555,25 +570,25 @@ if request_type == "請假(Leave)":
         if upload_error:
             st.error(upload_error)
 
-    st.markdown("#### 請假開始日期與時間 Start Date & Time")
+    st.markdown("#### 請假開始日期與時間")
     col1, col2, col3 = st.columns([2, 1, 1])
     with col1:
-        leave_start_date = st.date_input("請假開始日期 Start Date *", value=date.today())
+        leave_start_date = st.date_input("請假開始日期 *", value=date.today())
     with col2:
-        leave_start_hour = st.selectbox("請假開始時間(小時) *", HOUR_OPTIONS, index=8)
+        leave_start_hour = st.selectbox("請假開始時間（小時） *", HOUR_OPTIONS, index=8)
     with col3:
-        leave_start_minute = st.selectbox("請假開始時間(分鐘) *", MINUTE_OPTIONS, index=0)
+        leave_start_minute = st.selectbox("請假開始時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
-    st.markdown("#### 請假結束日期與時間 End Date & Time")
+    st.markdown("#### 請假結束日期與時間")
     col1, col2, col3 = st.columns([2, 1, 1])
     with col1:
-        leave_end_date = st.date_input("請假結束日期 End Date *", value=date.today())
+        leave_end_date = st.date_input("請假結束日期 *", value=date.today())
     with col2:
-        leave_end_hour = st.selectbox("請假結束時間(小時) *", HOUR_OPTIONS, index=17)
+        leave_end_hour = st.selectbox("請假結束時間（小時） *", HOUR_OPTIONS, index=17)
     with col3:
-        leave_end_minute = st.selectbox("請假結束時間(分鐘) *", MINUTE_OPTIONS, index=0)
+        leave_end_minute = st.selectbox("請假結束時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
-    leave_reason = st.text_area("請假原因 Leave Reason *")
+    leave_reason = st.text_area("請假原因 *")
 
     if is_annual_leave(leave_type):
         two_days_later = date.today() + timedelta(days=2)
@@ -585,59 +600,50 @@ if request_type == "請假(Leave)":
 # 加班
 # ==============================
 
-elif request_type == "加班(Overtime)":
-    st.subheader("加班申請單 Overtime Application Form")
+elif request_type == "加班":
+    st.subheader("加班申請單")
 
-    warning_hint(
-        "請於每日加班結束，刷卡下班後再填寫此表單。",
-        "Please fill in this form at the end of daily overtime, after swiping your card after getting off work."
-    )
+    warning_box("請於每日加班結束，刷卡下班後再填寫此表單。")
 
-    select_zero = st.radio("請選0 *", ["0"], horizontal=True)
-    pay_type = st.radio("加班類型 *", ["PAY"], horizontal=True)
+    select_zero = st.radio("請選 0 *", ["0"], horizontal=True)
+    pay_type = st.radio("給付方式 *", ["PAY"], horizontal=True)
 
     overtime_type = st.radio(
-        "加班類型 Overtime Type *",
+        "加班類型 *",
         OVERTIME_TYPES
     )
 
-    bilingual_hint(
-        "外籍同仁：平日加班請選 Code 10；假日加班請選無交通費 Code 20 或 63，請勿選擇含交通費選項 Code 25 或 60。",
-        "Foreign employees: Select Code 10 for weekday overtime. For holiday overtime, select no transportation expenses (Code 20 or 63), and do not select options with transportation expenses (Code 25 or 60)."
-    )
+    hint_box("外籍同仁：平日加班請選 Code 10；假日加班請選無交通費 Code 20 或 63，請勿選擇含交通費選項 Code 25 或 60。")
 
-    st.markdown("#### 加班開始日期與時間 Start Date & Time")
+    st.markdown("#### 加班開始日期與時間")
     col1, col2, col3 = st.columns([2, 1, 1])
     with col1:
-        overtime_start_date = st.date_input("加班開始日期 Start Date *", value=date.today())
+        overtime_start_date = st.date_input("加班開始日期 *", value=date.today())
     with col2:
-        overtime_start_hour = st.selectbox("加班開始時間(小時) *", HOUR_OPTIONS, index=17)
+        overtime_start_hour = st.selectbox("加班開始時間（小時） *", HOUR_OPTIONS, index=17)
     with col3:
-        overtime_start_minute = st.selectbox("加班開始時間(分鐘) *", MINUTE_OPTIONS, index=0)
+        overtime_start_minute = st.selectbox("加班開始時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
-    st.markdown("#### 加班結束日期與時間 End Date & Time")
+    st.markdown("#### 加班結束日期與時間")
     col1, col2, col3 = st.columns([2, 1, 1])
     with col1:
-        overtime_end_date = st.date_input("加班結束日期 End Date *", value=date.today())
+        overtime_end_date = st.date_input("加班結束日期 *", value=date.today())
     with col2:
-        overtime_end_hour = st.selectbox("加班結束時間(小時) *", HOUR_OPTIONS, index=19)
+        overtime_end_hour = st.selectbox("加班結束時間（小時） *", HOUR_OPTIONS, index=19)
     with col3:
-        overtime_end_minute = st.selectbox("加班結束時間(分鐘) *", MINUTE_OPTIONS, index=0)
+        overtime_end_minute = st.selectbox("加班結束時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
-    overtime_reason = st.text_area("加班原因 Overtime Reason *")
+    overtime_reason = st.text_area("加班原因 *")
 
     break_hours = st.radio(
-        "加班休息時間(Break Time)_小時/Hours *",
+        "加班休息時間（小時） *",
         BREAK_HOUR_OPTIONS,
         horizontal=True
     )
 
     if break_hours == "0":
-        warning_hint(
-            "如勾選未休息，請於下方填寫原因。",
-            "If you selected no rest, please fill in the reason below."
-        )
-        no_break_reason = st.text_area("未休息原因 No Break Reason *")
+        warning_box("如勾選未休息，請於下方填寫原因。")
+        no_break_reason = st.text_area("未休息原因 *")
     else:
         no_break_reason = ""
 
@@ -649,75 +655,66 @@ elif request_type == "加班(Overtime)":
 # ==============================
 
 else:
-    st.subheader("工時補登申請單 Timesheet Correction Application Form")
+    st.subheader("工時補登申請單")
 
-    warning_hint(
-        "如有忘記刷卡、未帶卡，或是出勤異常，皆需完成補登。忘記帶卡需上傳借用登記表。",
-        "If you forget to clock in/out, do not have your card, or encounter attendance irregularities, you must complete a correction. In case of forgotten card, the borrowing registration form is required."
-    )
+    warning_box("如有忘記刷卡、未帶卡，或是出勤異常，皆需完成補登。忘記帶卡需上傳借用登記表。")
 
     correction_reason = st.radio(
-        "補登原因 Timesheet Correction Reason *",
+        "補登原因 *",
         CORRECTION_REASONS
     )
 
-    if correction_reason == "忘記刷卡上班(Forgot to Clock In)":
-        st.markdown("#### 補登上班日期與時間 Start Date & Time")
+    if correction_reason == "忘記刷卡上班":
+        st.markdown("#### 補登上班日期與時間")
         col1, col2, col3 = st.columns([2, 1, 1])
         with col1:
-            correction_start_date = st.date_input("補登上班日期 Start Date *", value=date.today())
+            correction_start_date = st.date_input("補登上班日期 *", value=date.today())
         with col2:
-            correction_start_hour = st.selectbox("補登上班時間(小時) *", HOUR_OPTIONS, index=8)
+            correction_start_hour = st.selectbox("補登上班時間（小時） *", HOUR_OPTIONS, index=8)
         with col3:
-            correction_start_minute = st.selectbox("補登上班時間(分鐘) *", MINUTE_OPTIONS, index=0)
+            correction_start_minute = st.selectbox("補登上班時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
         correction_end_date = correction_start_date
         correction_end_hour = correction_start_hour
         correction_end_minute = correction_start_minute
 
-    elif correction_reason in [
-        "忘記刷卡下班(Forgot to Clock Out)",
-        "早於刷卡時間(Earlier than the card swipe time)"
-    ]:
-        st.markdown("#### 補登下班日期與時間 End Date & Time")
+    elif correction_reason in ["忘記刷卡下班", "早於刷卡時間"]:
+        st.markdown("#### 補登下班日期與時間")
         col1, col2, col3 = st.columns([2, 1, 1])
         with col1:
-            correction_end_date = st.date_input("補登下班日期 End Date *", value=date.today())
+            correction_end_date = st.date_input("補登下班日期 *", value=date.today())
         with col2:
-            correction_end_hour = st.selectbox("補登下班時間(小時) *", HOUR_OPTIONS, index=17)
+            correction_end_hour = st.selectbox("補登下班時間（小時） *", HOUR_OPTIONS, index=17)
         with col3:
-            correction_end_minute = st.selectbox("補登下班時間(分鐘) *", MINUTE_OPTIONS, index=0)
+            correction_end_minute = st.selectbox("補登下班時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
         correction_start_date = correction_end_date
         correction_start_hour = correction_end_hour
         correction_start_minute = correction_end_minute
 
-    elif correction_reason == "忘記帶卡(Forgot to Bring Access Card)":
-        warning_hint(
-            "忘記帶卡需上傳借用登記表。若無上傳完成，視同無補登。",
-            "In case of forgotten card, submission of the borrowing registration form is required. The correction is not valid without completed document upload."
-        )
+    elif correction_reason == "忘記帶卡":
+        warning_box("忘記帶卡需上傳借用登記表。若無上傳完成，視同無補登。附件僅允許上傳 1 個檔案，若有多個檔案，請先合併為 1 個 PDF 或圖片檔。檔案大小上限為 10MB。")
 
-        st.markdown("#### 補登上班日期與時間 Start Date & Time")
+        st.markdown("#### 補登上班日期與時間")
         col1, col2, col3 = st.columns([2, 1, 1])
         with col1:
-            correction_start_date = st.date_input("補登上班日期 Start Date *", value=date.today())
+            correction_start_date = st.date_input("補登上班日期 *", value=date.today())
         with col2:
-            correction_start_hour = st.selectbox("補登上班時間(小時) *", HOUR_OPTIONS, index=8)
+            correction_start_hour = st.selectbox("補登上班時間（小時） *", HOUR_OPTIONS, index=8)
         with col3:
-            correction_start_minute = st.selectbox("補登上班時間(分鐘) *", MINUTE_OPTIONS, index=0)
+            correction_start_minute = st.selectbox("補登上班時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
-        st.markdown("#### 補登下班日期與時間 End Date & Time")
+        st.markdown("#### 補登下班日期與時間")
         col1, col2, col3 = st.columns([2, 1, 1])
         with col1:
-            correction_end_date = st.date_input("補登下班日期 End Date *", value=date.today())
+            correction_end_date = st.date_input("補登下班日期 *", value=date.today())
         with col2:
-            correction_end_hour = st.selectbox("補登下班時間(小時) *", HOUR_OPTIONS, index=17)
+            correction_end_hour = st.selectbox("補登下班時間（小時） *", HOUR_OPTIONS, index=17)
         with col3:
-            correction_end_minute = st.selectbox("補登下班時間(分鐘) *", MINUTE_OPTIONS, index=0)
+            correction_end_minute = st.selectbox("補登下班時間（分鐘） *", MINUTE_OPTIONS, index=0)
 
         uploaded_file = st.file_uploader(
-            "補登附件上傳 Upload File *",
+            "補登附件上傳 *",
             type=UPLOAD_TYPES,
             accept_multiple_files=False
         )
@@ -736,23 +733,23 @@ def validate_required_fields():
     errors = []
 
     if not email.strip():
-        errors.append("電子郵件 Email")
+        errors.append("電子郵件")
 
     if not employee_id.strip():
-        errors.append("工號 Employee ID")
+        errors.append("工號")
 
     if " " in employee_id:
-        errors.append("工號不可含空白 Employee ID cannot contain spaces")
+        errors.append("工號不可含空白")
 
     if not employee_name.strip():
-        errors.append("姓名 Name")
+        errors.append("姓名")
 
     if " " in employee_name:
-        errors.append("姓名不可含空白 Name cannot contain spaces")
+        errors.append("姓名不可含空白")
 
-    if request_type == "請假(Leave)":
+    if request_type == "請假":
         if not leave_type:
-            errors.append("選擇假別 Leave Type")
+            errors.append("選擇假別")
 
         if "彈性育嬰留停" in leave_type and not flex_parental_category:
             errors.append("彈性育嬰留停假別分類")
@@ -761,10 +758,10 @@ def validate_required_fields():
             errors.append("喪假假別分類")
 
         if is_special_date_required(leave_type) and special_date is None:
-            errors.append("特殊日期 Date")
+            errors.append("日期")
 
         if is_leave_attachment_required(leave_type) and uploaded_file is None:
-            errors.append("請假附件上傳 Upload File")
+            errors.append("請假附件上傳")
 
         if uploaded_file is not None:
             upload_error = validate_upload(uploaded_file)
@@ -772,33 +769,33 @@ def validate_required_fields():
                 errors.append(upload_error)
 
         if not leave_reason.strip():
-            errors.append("請假原因 Leave Reason")
+            errors.append("請假原因")
 
-    elif request_type == "加班(Overtime)":
+    elif request_type == "加班":
         if select_zero != "0":
-            errors.append("請選0")
+            errors.append("請選 0")
 
         if pay_type != "PAY":
-            errors.append("加班類型 PAY")
+            errors.append("給付方式")
 
         if not overtime_type:
-            errors.append("加班類型 Overtime Type")
+            errors.append("加班類型")
 
         if not overtime_reason.strip():
-            errors.append("加班原因 Overtime Reason")
+            errors.append("加班原因")
 
         if not break_hours:
-            errors.append("加班休息時間 Break Time")
+            errors.append("加班休息時間")
 
         if break_hours == "0" and not no_break_reason.strip():
-            errors.append("未休息原因 No Break Reason")
+            errors.append("未休息原因")
 
     else:
         if not correction_reason:
-            errors.append("補登原因 Timesheet Correction Reason")
+            errors.append("補登原因")
 
-        if correction_reason == "忘記帶卡(Forgot to Bring Access Card)" and uploaded_file is None:
-            errors.append("補登附件上傳 Upload File")
+        if correction_reason == "忘記帶卡" and uploaded_file is None:
+            errors.append("補登附件上傳")
 
         if uploaded_file is not None:
             upload_error = validate_upload(uploaded_file)
@@ -814,7 +811,7 @@ def validate_required_fields():
 
 st.divider()
 
-if st.button("送出申請 Submit", use_container_width=True):
+if st.button("送出申請", use_container_width=True):
 
     errors = validate_required_fields()
 
@@ -822,11 +819,12 @@ if st.button("送出申請 Submit", use_container_width=True):
         st.error("❌ 以下欄位需確認：\n\n- " + "\n- ".join(errors))
         st.stop()
 
-    form_type_normalized = request_type_to_normalized(request_type)
+    form_type_normalized = REQUEST_TYPE_PAYLOAD_MAP[request_type]["normalized"]
+    form_type_raw = REQUEST_TYPE_PAYLOAD_MAP[request_type]["raw"]
 
     payload = build_base_payload(
         request_type_normalized=form_type_normalized,
-        form_type_raw=request_type,
+        form_type_raw=form_type_raw,
         employee_name=employee_name,
         employee_id=employee_id,
         email=email
@@ -835,7 +833,7 @@ if st.button("送出申請 Submit", use_container_width=True):
     try:
         attachment_links = build_file_info(uploaded_file)
 
-        if request_type == "請假(Leave)":
+        if request_type == "請假":
             start_dt = combine_datetime(leave_start_date, leave_start_hour, leave_start_minute)
             end_dt = combine_datetime(leave_end_date, leave_end_hour, leave_end_minute)
 
@@ -843,10 +841,13 @@ if st.button("送出申請 Submit", use_container_width=True):
                 st.error("❌ 請假結束時間不可早於或等於開始時間。")
                 st.stop()
 
+            leave_type_payload = LEAVE_TYPE_PAYLOAD_MAP[leave_type]
+            bereavement_payload = BEREAVEMENT_CATEGORY_PAYLOAD_MAP.get(bereavement_category, bereavement_category)
+
             payload["leave"].update({
-                "leaveType": leave_type,
+                "leaveType": leave_type_payload,
                 "flexParentalLeaveCategory": flex_parental_category,
-                "bereavementCategory": bereavement_category,
+                "bereavementCategory": bereavement_payload,
                 "specialDateRaw": format_date_raw(special_date) if special_date else "",
                 "specialDateIso": special_date.isoformat() if special_date else "",
                 "attachmentLinks": attachment_links,
@@ -863,7 +864,7 @@ if st.button("送出申請 Submit", use_container_width=True):
                 "leaveReason": leave_reason.strip()
             })
 
-        elif request_type == "加班(Overtime)":
+        elif request_type == "加班":
             start_dt = combine_datetime(overtime_start_date, overtime_start_hour, overtime_start_minute)
             end_dt = combine_datetime(overtime_end_date, overtime_end_hour, overtime_end_minute)
 
@@ -871,10 +872,12 @@ if st.button("送出申請 Submit", use_container_width=True):
                 st.error("❌ 加班結束時間不可早於或等於開始時間。")
                 st.stop()
 
+            overtime_type_payload = OVERTIME_TYPE_PAYLOAD_MAP[overtime_type]
+
             payload["overtime"].update({
                 "selectZero": select_zero,
                 "payType": pay_type,
-                "overtimeType": overtime_type,
+                "overtimeType": overtime_type_payload,
                 "overtimeStartDateRaw": format_date_raw(overtime_start_date),
                 "overtimeStartHourRaw": overtime_start_hour,
                 "overtimeStartMinuteRaw": overtime_start_minute,
@@ -895,13 +898,14 @@ if st.button("送出申請 Submit", use_container_width=True):
             start_dt = combine_datetime(correction_start_date, correction_start_hour, correction_start_minute)
             end_dt = combine_datetime(correction_end_date, correction_end_hour, correction_end_minute)
 
-            # 忘記帶卡是完整起訖；其他補單點時間不需檢查 start < end
-            if correction_reason == "忘記帶卡(Forgot to Bring Access Card)" and not validate_start_end(start_dt, end_dt):
+            if correction_reason == "忘記帶卡" and not validate_start_end(start_dt, end_dt):
                 st.error("❌ 補登結束時間不可早於或等於開始時間。")
                 st.stop()
 
+            correction_reason_payload = CORRECTION_REASON_PAYLOAD_MAP[correction_reason]
+
             payload["correction"].update({
-                "correctionReason": correction_reason,
+                "correctionReason": correction_reason_payload,
                 "correctionStartDateRaw": format_date_raw(correction_start_date),
                 "correctionStartHourRaw": correction_start_hour,
                 "correctionStartMinuteRaw": correction_start_minute,

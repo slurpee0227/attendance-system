@@ -31,12 +31,15 @@ def apply_page_style():
             background-color: #f4f6f9 !important;
             color: #111827 !important;
         }
+
         html, body, [class*="css"] {
             color: #111827 !important;
         }
+
         label, p, span, div {
             color: #111827 !important;
         }
+
         [data-testid="stSidebar"],
         [data-testid="collapsedControl"],
         [data-testid="stToolbar"],
@@ -50,37 +53,13 @@ def apply_page_style():
             display: none !important;
             visibility: hidden !important;
         }
+
         .block-container {
-            padding-top: 1.5rem;
+            padding-top: 2rem;
             padding-bottom: 2rem;
-            max-width: 980px;
+            max-width: 900px;
         }
-        .section-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 18px;
-            padding: 18px 20px;
-            margin: 12px 0 18px 0;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-        }
-        .hint-box {
-            background: #eff6ff;
-            border-left: 5px solid #2563eb;
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin: 8px 0 16px 0;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .warning-box {
-            background: #fff7ed;
-            border-left: 5px solid #f97316;
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin: 8px 0 16px 0;
-            font-size: 14px;
-            line-height: 1.6;
-        }
+
         .stButton > button {
             height: 50px;
             border-radius: 12px;
@@ -88,20 +67,32 @@ def apply_page_style():
             background-color: #2563eb !important;
             color: white !important;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 600;
         }
+
         .stButton > button:hover {
             background-color: #1d4ed8 !important;
             color: white !important;
         }
+
         .stTextInput input,
         .stTextArea textarea,
-        .stSelectbox div,
         .stDateInput input {
             background-color: white !important;
             color: #111827 !important;
             border-radius: 10px;
             border: 1px solid #d1d5db !important;
+        }
+
+        div[data-baseweb="select"] > div {
+            background-color: white !important;
+            color: #111827 !important;
+            border-radius: 10px !important;
+            border: 1px solid #d1d5db !important;
+        }
+
+        div[data-baseweb="select"] span {
+            color: #111827 !important;
         }
         </style>
         """,
