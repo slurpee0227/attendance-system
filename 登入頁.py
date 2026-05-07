@@ -130,6 +130,19 @@ st.markdown(
         border-radius: 10px;
     }
 
+    /* 嘗試隱藏右下角 Streamlit Badge */
+
+    [data-testid="stStatusWidget"] {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    [data-testid="stStatusWidget"] * {
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
