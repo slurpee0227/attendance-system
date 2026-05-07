@@ -44,8 +44,6 @@ st.markdown(
     ========================= */
 
     [data-testid="stToolbar"],
-    [data-testid="stStatusWidget"],
-    [data-testid="stDecoration"],
     .stDeployButton,
     .stAppDeployButton,
     #MainMenu,
