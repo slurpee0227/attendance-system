@@ -120,23 +120,23 @@ if not SYSTEM_OPEN:
             <div class="maintenance-icon">🚧</div>
 
             <div class="maintenance-title">
-                Attendance Request System
+                出勤申請系統
             </div>
 
             <div class="maintenance-subtitle">
-                The system is not available yet.
+                系統尚未開放
             </div>
 
             <div class="maintenance-text">
-                The system is currently under adjustment and testing.
+                目前系統正在進行功能調整與測試。
             </div>
 
             <div class="maintenance-text">
-                Please continue using the existing application process temporarily.
+                如有出勤申請需求，請暫時使用既有申請流程。
             </div>
 
             <div class="maintenance-footer">
-                出勤申請系統尚未開放
+                Attendance Request System Under Maintenance
             </div>
         </div>
         """,
