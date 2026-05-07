@@ -47,6 +47,18 @@ st.markdown(
         visibility: hidden;
     }
 
+    /* 隱藏右下角 Hosted with Streamlit */
+
+    [data-testid="stStatusWidget"] {
+        display: none;
+    }
+
+    /* 隱藏 Streamlit deploy button */
+
+    .stAppDeployButton {
+        display: none;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
