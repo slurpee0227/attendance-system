@@ -21,40 +21,87 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    [data-testid="stSidebar"] {
-        display: none;
-    }
-    [data-testid="collapsedControl"] {
-        display: none;
+
+    /* =========================
+       強制亮色系
+    ========================= */
+
+    .stApp {
+        background-color: #f4f6f9 !important;
+        color: #111827 !important;
     }
 
-    /* 隱藏 Streamlit Cloud 頂端列 / GitHub / Fork */
+    html, body, [class*="css"] {
+        color: #111827 !important;
+    }
+
+    label, p, span, div {
+        color: #111827 !important;
+    }
+
+    /* =========================
+       隱藏側邊欄
+    ========================= */
+
+    [data-testid="stSidebar"] {
+        display: none !important;
+    }
+
+    [data-testid="collapsedControl"] {
+        display: none !important;
+    }
+
+    /* =========================
+       隱藏 Streamlit Cloud UI
+    ========================= */
+
     [data-testid="stToolbar"] {
-        display: none;
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    [data-testid="stStatusWidget"] {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0px !important;
+    }
+
+    [data-testid="stDecoration"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    .stDeployButton,
+    .stAppDeployButton {
+        display: none !important;
+        visibility: hidden !important;
     }
 
     #MainMenu {
-        visibility: hidden;
+        display: none !important;
+        visibility: hidden !important;
     }
 
     footer {
-        visibility: hidden;
+        display: none !important;
+        visibility: hidden !important;
     }
 
     header {
-        visibility: hidden;
+        display: none !important;
+        visibility: hidden !important;
     }
 
-    /* 隱藏右下角 Hosted with Streamlit */
+    /* 嘗試隱藏右下角 Hosted with Streamlit */
 
-    [data-testid="stStatusWidget"] {
-        display: none;
+    iframe {
+        display: none !important;
+        visibility: hidden !important;
     }
 
-    /* 隱藏 Streamlit deploy button */
-
-    .stAppDeployButton {
-        display: none;
+    body > div:last-child {
+        display: none !important;
+        visibility: hidden !important;
     }
 
     </style>

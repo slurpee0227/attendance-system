@@ -23,23 +23,54 @@ st.markdown(
     <style>
 
     /* =========================
-       整體背景
+       強制亮色背景與文字
     ========================= */
 
     .stApp {
-        background-color: #f4f6f9;
+        background-color: #f4f6f9 !important;
+        color: #111827 !important;
+    }
+
+    html, body, [class*="css"] {
+        color: #111827 !important;
+    }
+
+    label, p, span, div {
+        color: #111827;
+    }
+
+    /* =========================
+       隱藏 Streamlit Cloud UI
+    ========================= */
+
+    [data-testid="stToolbar"],
+    [data-testid="stStatusWidget"],
+    [data-testid="stDecoration"],
+    .stDeployButton,
+    .stAppDeployButton,
+    #MainMenu,
+    footer,
+    header {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0px !important;
+    }
+
+    /* 右下角 Hosted with Streamlit 強制隱藏 */
+    iframe,
+    body > div:last-child {
+        display: none !important;
+        visibility: hidden !important;
     }
 
     /* =========================
        隱藏側邊欄
     ========================= */
 
-    [data-testid="stSidebar"] {
-        display: none;
-    }
-
+    [data-testid="stSidebar"],
     [data-testid="collapsedControl"] {
-        display: none;
+        display: none !important;
+        visibility: hidden !important;
     }
 
     /* =========================
@@ -60,24 +91,44 @@ st.markdown(
         height: 52px;
         border-radius: 12px;
         border: none;
-        background-color: #2563eb;
-        color: white;
+        background-color: #2563eb !important;
+        color: white !important;
         font-size: 16px;
         font-weight: 600;
         transition: 0.2s;
     }
 
     .stButton > button:hover {
-        background-color: #1d4ed8;
+        background-color: #1d4ed8 !important;
+        color: white !important;
     }
 
     /* =========================
-       Input
+       Input / Select / TextArea
     ========================= */
 
-    .stTextInput > div > div > input {
+    .stTextInput input,
+    .stTextArea textarea,
+    .stSelectbox div,
+    .stDateInput input,
+    .stTimeInput input {
+        background-color: white !important;
+        color: #111827 !important;
         border-radius: 10px;
-        border: 1px solid #d1d5db;
+        border: 1px solid #d1d5db !important;
+    }
+
+    .stTextInput input::placeholder {
+        color: #6b7280 !important;
+    }
+
+    /* =========================
+       Radio
+    ========================= */
+
+    .stRadio label,
+    div[role="radiogroup"] label {
+        color: #111827 !important;
     }
 
     /* =========================
@@ -86,35 +137,6 @@ st.markdown(
 
     .stSuccess {
         border-radius: 10px;
-    }
-
-    /* 隱藏 Streamlit Cloud 頂端列 / GitHub / Fork */
-    [data-testid="stToolbar"] {
-        display: none;
-    }
-
-    #MainMenu {
-        visibility: hidden;
-    }
-
-    footer {
-        visibility: hidden;
-    }
-
-    header {
-        visibility: hidden;
-    }
-
-    /* 隱藏右下角 Hosted with Streamlit */
-
-    [data-testid="stStatusWidget"] {
-        display: none;
-    }
-
-    /* 隱藏 Streamlit deploy button */
-
-    .stAppDeployButton {
-        display: none;
     }
 
     </style>
