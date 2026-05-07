@@ -11,93 +11,83 @@ st.set_page_config(
 )
 
 # ==============================
-# 自訂樣式
+# CSS
 # ==============================
 
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-color: #f4f6f9 !important;
-        color: #111827 !important;
-    }
+st.markdown("""
+<style>
 
-    html, body, [class*="css"] {
-        color: #111827 !important;
-    }
+.stApp {
+    background-color: #f4f6f9;
+}
 
-    [data-testid="stSidebar"],
-    [data-testid="collapsedControl"],
-    [data-testid="stToolbar"],
-    [data-testid="stStatusWidget"],
-    [data-testid="stDecoration"],
-    .stDeployButton,
-    .stAppDeployButton,
-    #MainMenu,
-    footer,
-    header {
-        display: none !important;
-        visibility: hidden !important;
-    }
+[data-testid="stSidebar"],
+[data-testid="collapsedControl"],
+[data-testid="stToolbar"],
+[data-testid="stStatusWidget"],
+[data-testid="stDecoration"],
+header,
+footer,
+#MainMenu {
+    display: none !important;
+}
 
-    .block-container {
-        padding-top: 3rem;
-        padding-bottom: 3rem;
-        max-width: 900px;
-    }
+.block-container {
+    max-width: 900px;
+    padding-top: 3rem;
+}
 
-    .maintenance-card {
-        background-color: white;
-        border-radius: 20px;
-        padding: 60px 40px;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        border: 1px solid #e5e7eb;
-    }
+.maintenance-card {
+    background: white;
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
 
-    .maintenance-icon {
-        font-size: 76px;
-        margin-bottom: 20px;
-    }
+.maintenance-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
 
-    .maintenance-title {
-        font-size: 40px;
-        font-weight: 700;
-        margin-bottom: 18px;
-    }
+.maintenance-title {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #111827;
+}
 
-    .maintenance-subtitle {
-        font-size: 24px;
-        font-weight: 600;
-        color: #2563eb;
-        margin-bottom: 28px;
-    }
+.maintenance-subtitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 30px;
+}
 
-    .maintenance-text {
-        font-size: 18px;
-        color: #4b5563;
-        line-height: 1.8;
-    }
+.maintenance-text {
+    font-size: 18px;
+    color: #4b5563;
+    line-height: 1.8;
+}
 
-    .maintenance-footer {
-        margin-top: 36px;
-        font-size: 14px;
-        color: #9ca3af;
-    }
+.maintenance-footer {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #9ca3af;
+}
 
-    .stButton > button {
-        height: 48px;
-        border-radius: 12px;
-        border: none;
-        background-color: #2563eb !important;
-        color: white !important;
-        font-size: 16px;
-        font-weight: 600;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+.stButton > button {
+    height: 48px;
+    border-radius: 12px;
+    border: none;
+    background-color: #2563eb !important;
+    color: white !important;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # ==============================
 # 系統開放控制
@@ -105,43 +95,41 @@ st.markdown(
 
 SYSTEM_OPEN = False
 
-# 若之後想用 Streamlit secrets 控制，改成這行：
-# SYSTEM_OPEN = st.secrets.get("ATTENDANCE_SYSTEM_OPEN", False)
-
 # ==============================
 # 未開放頁面
 # ==============================
 
 if not SYSTEM_OPEN:
 
-    st.markdown(
-        """
-        <div class="maintenance-card">
-            <div class="maintenance-icon">🚧</div>
+    st.markdown("""
+    <div class="maintenance-card">
 
-            <div class="maintenance-title">
-                出勤申請系統
-            </div>
-
-            <div class="maintenance-subtitle">
-                系統尚未開放
-            </div>
-
-            <div class="maintenance-text">
-                目前系統正在進行功能調整與測試。
-            </div>
-
-            <div class="maintenance-text">
-                如有出勤申請需求，請暫時使用既有申請流程。
-            </div>
-
-            <div class="maintenance-footer">
-                Attendance Request System Under Maintenance
-            </div>
+        <div class="maintenance-icon">
+            🚧
         </div>
-        """,
-        unsafe_allow_html=True
-    )
+
+        <div class="maintenance-title">
+            出勤申請系統
+        </div>
+
+        <div class="maintenance-subtitle">
+            系統尚未開放
+        </div>
+
+        <div class="maintenance-text">
+            目前系統正在進行功能調整與測試。
+        </div>
+
+        <div class="maintenance-text">
+            如有出勤申請需求，請暫時使用既有申請流程。
+        </div>
+
+        <div class="maintenance-footer">
+            系統維護中
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -151,7 +139,7 @@ if not SYSTEM_OPEN:
     st.stop()
 
 # ==============================
-# 系統開放後，原本的出勤申請程式放這裡
+# 系統正式開放後
 # ==============================
 
 st.success("系統已開放")
