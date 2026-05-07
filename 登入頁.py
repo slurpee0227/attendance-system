@@ -195,6 +195,9 @@ if not st.session_state.logged_in or not st.session_state.user_info:
     st.title("🔐 出勤系統登入")
     st.caption("Attendance System Login")
 
+    if st.button("English Version", use_container_width=True):
+        st.switch_page("pages/0_English_Login.py")
+
     st.divider()
 
     employee_id = st.text_input(
@@ -273,6 +276,11 @@ st.caption(f"部門：{department}")
 st.divider()
 
 st.subheader("請選擇功能")
+
+if st.button("English Version", use_container_width=True):
+    st.switch_page("pages/0_English_Login.py")
+
+st.markdown("<br>", unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
