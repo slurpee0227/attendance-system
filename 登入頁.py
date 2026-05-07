@@ -88,6 +88,23 @@ st.markdown(
         border-radius: 10px;
     }
 
+    /* 隱藏 Streamlit Cloud 頂端列 / GitHub / Fork */
+    [data-testid="stToolbar"] {
+        display: none;
+    }
+
+    #MainMenu {
+        visibility: hidden;
+    }
+
+    footer {
+        visibility: hidden;
+    }
+
+    header {
+        visibility: hidden;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
