@@ -56,13 +56,6 @@ st.markdown(
         height: 0px !important;
     }
 
-    /* 右下角 Hosted with Streamlit 強制隱藏 */
-    iframe,
-    body > div:last-child {
-        display: none !important;
-        visibility: hidden !important;
-    }
-
     /* =========================
        隱藏側邊欄
     ========================= */

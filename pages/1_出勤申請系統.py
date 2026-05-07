@@ -94,18 +94,6 @@ st.markdown(
         visibility: hidden !important;
     }
 
-    /* 嘗試隱藏右下角 Hosted with Streamlit */
-
-    iframe {
-        display: none !important;
-        visibility: hidden !important;
-    }
-
-    body > div:last-child {
-        display: none !important;
-        visibility: hidden !important;
-    }
-
     </style>
     """,
     unsafe_allow_html=True
