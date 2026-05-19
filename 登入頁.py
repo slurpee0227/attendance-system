@@ -23,10 +23,6 @@ st.markdown(
     """
     <style>
 
-    /* =========================
-       強制亮色背景與文字
-    ========================= */
-
     .stApp {
         background-color: #f4f6f9 !important;
         color: #111827 !important;
@@ -40,10 +36,6 @@ st.markdown(
         color: #111827;
     }
 
-    /* =========================
-       隱藏 Streamlit Cloud UI
-    ========================= */
-
     [data-testid="stToolbar"],
     .stDeployButton,
     .stAppDeployButton,
@@ -55,19 +47,11 @@ st.markdown(
         height: 0px !important;
     }
 
-    /* =========================
-       隱藏側邊欄
-    ========================= */
-
     [data-testid="stSidebar"],
     [data-testid="collapsedControl"] {
         display: none !important;
         visibility: hidden !important;
     }
-
-    /* =========================
-       主區塊
-    ========================= */
 
     .block-container {
         padding-top: 2rem;
@@ -75,54 +59,87 @@ st.markdown(
         max-width: 850px;
     }
 
-    /* =========================
-       Button
-    ========================= */
-
-    .stButton > button {
+    .stButton > button,
+    .stButton > button[kind="secondary"],
+    .stButton > button[kind="primary"] {
         height: 52px;
         border-radius: 12px;
-        border: none;
-        background-color: #2563eb !important;
-        color: white !important;
+        border: none !important;
+        background-color: #38bdf8 !important;
+        color: #ffffff !important;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 700;
         transition: 0.2s;
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.35);
     }
 
-    .stButton > button:hover {
-        background-color: #1d4ed8 !important;
-        color: white !important;
+    .stButton > button:hover,
+    .stButton > button[kind="secondary"]:hover,
+    .stButton > button[kind="primary"]:hover {
+        background-color: #0ea5e9 !important;
+        color: #ffffff !important;
+        border: none !important;
     }
 
-    /* =========================
-       Link Button
-    ========================= */
+    .stButton > button:focus,
+    .stButton > button:active {
+        background-color: #0284c7 !important;
+        color: #ffffff !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25) !important;
+    }
 
-    .stLinkButton > a {
+    .stButton > button p,
+    .stButton > button span,
+    .stButton > button div {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+
+    .stLinkButton > a,
+    .stLinkButton > a[kind="secondary"],
+    .stLinkButton > a[kind="primary"] {
         height: 52px;
         border-radius: 12px;
-        border: none;
-        background-color: #2563eb !important;
-        color: white !important;
+        border: none !important;
+        background-color: #38bdf8 !important;
+        color: #ffffff !important;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 700;
         transition: 0.2s;
         display: flex;
         align-items: center;
         justify-content: center;
-        text-decoration: none;
+        text-decoration: none !important;
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.35);
     }
 
-    .stLinkButton > a:hover {
-        background-color: #1d4ed8 !important;
-        color: white !important;
-        text-decoration: none;
+    .stLinkButton > a:hover,
+    .stLinkButton > a[kind="secondary"]:hover,
+    .stLinkButton > a[kind="primary"]:hover {
+        background-color: #0ea5e9 !important;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        border: none !important;
     }
 
-    /* =========================
-       Input / Select / TextArea
-    ========================= */
+    .stLinkButton > a:focus,
+    .stLinkButton > a:active {
+        background-color: #0284c7 !important;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25) !important;
+    }
+
+    .stLinkButton > a p,
+    .stLinkButton > a span,
+    .stLinkButton > a div {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
 
     .stTextInput input,
     .stTextArea textarea,
@@ -139,24 +156,14 @@ st.markdown(
         color: #6b7280 !important;
     }
 
-    /* =========================
-       Radio
-    ========================= */
-
     .stRadio label,
     div[role="radiogroup"] label {
         color: #111827 !important;
     }
 
-    /* =========================
-       成功訊息
-    ========================= */
-
     .stSuccess {
         border-radius: 10px;
     }
-
-    /* 嘗試隱藏右下角 Streamlit Badge */
 
     [data-testid="stStatusWidget"] {
         visibility: hidden !important;
