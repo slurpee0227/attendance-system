@@ -7,6 +7,7 @@ import requests
 
 LOGIN_FLOW_URL = st.secrets["LOGIN_FLOW_URL"]
 SECRET_KEY = st.secrets["SECRET_KEY"]
+ATTENDANCE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeQlonRowaqwFUks_HoaSt0QonFOnfklRtmez8oIl3dWDzwVg/viewform?usp=header"
 
 st.set_page_config(
     page_title="登入頁",
@@ -92,6 +93,31 @@ st.markdown(
     .stButton > button:hover {
         background-color: #1d4ed8 !important;
         color: white !important;
+    }
+
+    /* =========================
+       Link Button
+    ========================= */
+
+    .stLinkButton > a {
+        height: 52px;
+        border-radius: 12px;
+        border: none;
+        background-color: #2563eb !important;
+        color: white !important;
+        font-size: 16px;
+        font-weight: 600;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .stLinkButton > a:hover {
+        background-color: #1d4ed8 !important;
+        color: white !important;
+        text-decoration: none;
     }
 
     /* =========================
@@ -290,11 +316,11 @@ col1, col2 = st.columns(2)
 
 with col1:
 
-    if st.button(
+    st.link_button(
         "📝 進入出勤申請",
+        ATTENDANCE_FORM_URL,
         use_container_width=True
-    ):
-        st.switch_page("pages/1_出勤申請系統.py")
+    )
 
 # ==============================
 # 申請紀錄查詢
